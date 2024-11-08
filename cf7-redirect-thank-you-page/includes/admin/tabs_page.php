@@ -121,10 +121,7 @@ function cf7rl_save_contact_form( $cf7 ) {
 		$cf7rl_redirect_type = sanitize_text_field($_POST['cf7rl_redirect_type']);
 		update_post_meta($post_id, "_cf7rl_redirect_type", $cf7rl_redirect_type);
 		
-		$cf7rl_redirect_type = sanitize_text_field($_POST['cf7rl_redirect_type']);
-		update_post_meta($post_id, "_cf7rl_redirect_type", $cf7rl_redirect_type);
-		
-		$cf7rl_url = sanitize_text_field($_POST['cf7rl_url']);
+		$cf7rl_url = esc_url_raw($_POST['cf7rl_url']);
 		update_post_meta($post_id, "_cf7rl_url", $cf7rl_url);
 		
 		$cf7rl_thank_you_page = sanitize_textarea_field($_POST['cf7rl_thank_you_page']);

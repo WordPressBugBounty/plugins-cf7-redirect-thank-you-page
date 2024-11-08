@@ -41,10 +41,12 @@ function cf7rl_admin_table() {
 	
 	// tabs
 	if (isset($_POST['hidden_tab_value'])) {
-		$active_tab =  sanitize_text_field($_POST['hidden_tab_value']);
+		$active_tab =	sanitize_text_field($_POST['hidden_tab_value']);
+		$active_tab =	esc_attr($active_tab); // Apply escaping for safe output
 	} else {
 		if (isset($_GET['tab'])) {
 			$active_tab = sanitize_text_field($_GET[ 'tab' ]);
+			$active_tab = esc_attr($active_tab); // Apply escaping for safe output
 		} else {
 			$active_tab = '1';
 		}
@@ -83,6 +85,18 @@ function cf7rl_admin_table() {
 			$settings_table_output .= "&nbsp; Getting Started";
 		$settings_table_output .= "</div>";
 		$settings_table_output .= "<div style='background-color:#fff;padding:8px;'>
+			
+			If you like this plugin, please leave a positive review <a target='_blank' href='https://wordpress.org/support/plugin/cf7-redirect-thank-you-page/reviews/?filter=5'>here</a>!
+			
+			<br><br>
+			
+			If you have any questions or problems, please post a support question <a target='_blank' href='https://wordpress.org/support/plugin/cf7-redirect-thank-you-page/'>here</a>.
+			
+			<br><br>
+			
+			<hr>
+			
+			<br>
 			
 			When go to your <a href='admin.php?page=wpcf7'>list of contact forms</a>, make a new form or edit an existing form, you will see a new tab called 'Redirect & Thank You Page'. On this tab you can
 			setup individual settings for how that specific contact form redirects.

@@ -6,7 +6,7 @@ Author URI: https://wpplugin.org
 Requires at least: 3.0
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ No, on_sent_ok is not depreceated by Contact Form 7 and has been replaced by DOM
 
 
 == Changelog ==
+
+= 1.0.7 =
+* 11/8/24
+* Fix - Settings page small security issue.
 
 = 1.0.6 =
 * 8/1/24

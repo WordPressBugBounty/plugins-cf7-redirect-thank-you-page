@@ -7,7 +7,7 @@ Description: Adds Contact Form 7 Redirect & Thank You Page features
 Author: Scott Paterson
 Author URI: https://wpplugin.org
 License: GPL2
-Version: 1.0.6
+Version: 1.0.7
 */
 
 /*  Copyright 2014-2024 Scott Paterson
