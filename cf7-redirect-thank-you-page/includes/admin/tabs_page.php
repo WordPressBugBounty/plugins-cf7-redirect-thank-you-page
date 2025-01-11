@@ -23,7 +23,7 @@ add_filter( 'wpcf7_editor_panels', 'cf7rl_editor_panels' );
 
 function cf7rl_admin_after_additional_settings( $cf7 ) {
 	
-	$post_id = sanitize_text_field($_GET['post']);
+	$post_id = absint($_GET['post']);
 	
 	$enable = 						get_post_meta($post_id, "_cf7rl_enable", true);
 	$cf7rl_redirect_type = 			get_post_meta($post_id, "_cf7rl_redirect_type", true);
@@ -84,7 +84,7 @@ function cf7rl_admin_after_additional_settings( $cf7 ) {
 	
 	
 	
-	$admin_table_output .= "<input type='hidden' name='cf7rl_post' value='$post_id'>";
+	$admin_table_output .= "<input type='hidden' name='cf7rl_post' value='" . esc_attr($post_id) . "'>";
 
 	$admin_table_output .= "</td></tr></table>";
 
@@ -102,7 +102,7 @@ add_action('wpcf7_after_save', 'cf7rl_save_contact_form');
 
 function cf7rl_save_contact_form( $cf7 ) {
 		
-		$post_id = sanitize_text_field($_POST['cf7rl_post']);
+		$post_id = absint($_POST['cf7rl_post']);
 		
 		if (!empty($_POST['cf7rl_enable'])) {
 			$enable = sanitize_text_field($_POST['cf7rl_enable']);

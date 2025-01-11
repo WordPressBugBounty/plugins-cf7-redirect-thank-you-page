@@ -4,9 +4,9 @@ Donate link: https://wpplugin.org/donate/
 Tags: contact form 7, contact form 7 redirect, contact form 7 thank you page, cf7, contact form 7 success page
 Author URI: https://wpplugin.org
 Requires at least: 3.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ No, on_sent_ok is not depreceated by Contact Form 7 and has been replaced by DOM
 
 
 == Changelog ==
+
+= 1.0.8 =
+* 1/11/25
+* Fix - Settings page small security issue.
 
 = 1.0.7 =
 * 11/8/24
