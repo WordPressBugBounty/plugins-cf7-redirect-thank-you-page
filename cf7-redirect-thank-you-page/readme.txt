@@ -1,12 +1,12 @@
 === Contact Form 7 Redirect & Thank You Page ===
 Contributors: scottpaterson,wp-plugin
 Donate link: https://wpplugin.org/donate/
-Tags: contact form 7, contact form 7 redirect, contact form 7 thank you page, cf7, contact form 7 success page
+Tags: contact form 7, cf7 redirect, thank you page, cf7, redirect to url
 Author URI: https://wpplugin.org
 Requires at least: 3.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,9 +28,6 @@ When a contact form is set to use the Thank You Page and the user submits the fo
 
 #### URL Redirect Feature 
 When a contact form is set to redirect to a URL and the user submits the form it will send the Contact Form 7 email as usual, then redirect the user to the URL specified.
-
-#### Demos
-> [You can view demos here](http://demos.wpplugin.org/contact-form-7-redirect-thank-you-page/)
 
 #### List of Features
 * Each Contact Form can redirect to it's own URL
@@ -70,6 +67,11 @@ No, on_sent_ok is not depreceated by Contact Form 7 and has been replaced by DOM
 
 
 == Changelog ==
+
+= 1.0.9 =
+* 6/2/25
+* Change - Updated main PHP file to include PHP, WP minimum required version, and that the plugin requires Contact Form 7.
+* New - Added banner images to plugin assests folder.
 
 = 1.0.8 =
 * 1/11/25
