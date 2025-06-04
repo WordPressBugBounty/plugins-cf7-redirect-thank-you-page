@@ -86,16 +86,6 @@ function cf7rl_admin_table() {
 		$settings_table_output .= "</div>";
 		$settings_table_output .= "<div style='background-color:#fff;padding:8px;'>
 			
-			If you like this plugin, please leave a positive review <a target='_blank' href='https://wordpress.org/support/plugin/cf7-redirect-thank-you-page/reviews/?filter=5'>here</a>!
-			
-			<br><br>
-			
-			If you have any questions or problems, please post a support question <a target='_blank' href='https://wordpress.org/support/plugin/cf7-redirect-thank-you-page/'>here</a>.
-			
-			<br><br>
-			
-			<hr>
-			
 			<br>
 			
 			When go to your <a href='admin.php?page=wpcf7'>list of contact forms</a>, make a new form or edit an existing form, you will see a new tab called 'Redirect & Thank You Page'. On this tab you can
@@ -105,7 +95,21 @@ function cf7rl_admin_table() {
 			
 			<b>Note:</b> If you experience problems with the form not redirecting correctly, try changing the redirect method setting on the <a href='admin.php?page=cf7rl_admin_table&tab=2'>Settings</a> tab of this page.
 			
-			<br />";
+			<br /><br />
+
+			<hr>
+
+			<br />
+			
+			<b>Please leave a positive review <a target='_blank' href='https://wordpress.org/support/plugin/cf7-redirect-thank-you-page/reviews/?filter=5#new-post'>here</a>!</b>
+			
+			<br><br>
+			
+			If you have any questions or problems, please post a support question <a target='_blank' href='https://wordpress.org/support/plugin/cf7-redirect-thank-you-page/'>here</a>.
+			
+			<br /><br />
+			
+			";
 			
 		$settings_table_output .= "</div>";
 	$settings_table_output .= "</div>";

@@ -6,7 +6,7 @@ Author URI: https://wpplugin.org
 Requires at least: 3.0
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 1.0.9
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,13 @@ No, on_sent_ok is not depreceated by Contact Form 7 and has been replaced by DOM
 
 
 == Changelog ==
+
+= 1.1 =
+* 6/4/25
+* Fix - Fixed issue with double slashes being added to redirect URL
+* Fix - Fixed issue with enqueue css and js files having an ../ file path
+* Fix - Fixed issue with redirect method 2 not working. The Contact Form 7 plugin was using wpcf7-mail-sent-ok which was discontinued for the data-status attribute.
+* New - Added 1 week of using the plugin 'please review' admin notice.
 
 = 1.0.9 =
 * 6/2/25

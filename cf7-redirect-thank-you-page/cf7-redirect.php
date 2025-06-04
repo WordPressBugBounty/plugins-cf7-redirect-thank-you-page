@@ -7,7 +7,7 @@ Description: Adds Contact Form 7 Redirect & Thank You Page features
 Author: Scott Paterson
 Author URI: https://wpplugin.org
 License: GPL2
-Version: 1.0.9
+Version: 1.1
 Requires Plugins: contact-form-7
 Requires PHP: 5.6
 Requires at least: 3.0
@@ -70,11 +70,18 @@ if (function_exists('cf7rl_pro')) {
 		
 		add_option("cf7rl_options", $cf7rl_options);
 		
+		// Store installation timestamp for review notice
+		if (!get_option('cf7rl_install_date')) {
+			add_option('cf7rl_install_date', time());
+		}
+		
 	}
 
 	function cf7rl_deactivate() {
 		
 		delete_option("cf7rl_my_plugin_notice_shown");
+		delete_option("cf7rl_install_date");
+		delete_option("cf7rl_review_notice_dismissed");
 		
 	}
 
