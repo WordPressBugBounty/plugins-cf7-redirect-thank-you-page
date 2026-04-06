@@ -6,7 +6,19 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // add redirect menu under contact form 7 menu
 add_action( 'admin_menu', 'cf7rl_admin_menu', 20 );
 function cf7rl_admin_menu() {
-	add_submenu_page('wpcf7',__( 'Redirect Settings', 'contact-form-7' ),__( 'Redirect Settings', 'contact-form-7' ),'wpcf7_edit_contact_forms', 'cf7rl_admin_table','cf7rl_admin_table');
+	// Add Database menu item if module is enabled
+	if ( cf7rl_is_module_enabled( 'database_submissions' ) ) {
+		$hook = add_submenu_page('wpcf7',__( 'Database', 'contact-form-7' ),__( 'Database', 'contact-form-7' ),'manage_options', 'cf7rl_database','cf7rl_db_admin_page');
+		
+		// Add screen options on page load
+		add_action( "load-{$hook}", 'cf7rl_db_screen_options' );
+	}
+}
+
+// Add Business Essentials menu last with higher priority
+add_action( 'admin_menu', 'cf7rl_business_essentials_menu', 30 );
+function cf7rl_business_essentials_menu() {
+	add_submenu_page('wpcf7',__( 'Business Essentials', 'contact-form-7' ),__( 'Business Essentials', 'contact-form-7' ),'wpcf7_edit_contact_forms', 'cf7rl_admin_table','cf7rl_admin_table');
 }
 
 // plugin page links

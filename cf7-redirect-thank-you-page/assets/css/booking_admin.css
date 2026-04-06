@@ -1,0 +1,70 @@
+/* Booking Admin Styles */
+
+.cf7rl-booking-settings {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cf7rl-booking-settings td {
+    padding: 10px 15px;
+    vertical-align: middle;
+}
+
+.cf7rl-booking-settings h3 {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.cf7rl-booking-settings input[type="number"],
+.cf7rl-booking-settings input[type="time"],
+.cf7rl-booking-settings select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.cf7rl-booking-settings input[type="number"] {
+    width: 80px;
+}
+
+.cf7rl-booking-settings input[type="time"] {
+    width: 120px;
+}
+
+.cf7rl-booking-settings select {
+    min-width: 150px;
+}
+
+.cf7rl-booking-settings textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.cf7rl-booking-settings .description {
+    color: #666;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.cf7rl-availability-row label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cf7rl-availability-row input[type="checkbox"] {
+    margin: 0;
+}
+
+.cf7rl-booking-settings hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
+}

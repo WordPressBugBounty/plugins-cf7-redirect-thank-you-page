@@ -1,0 +1,166 @@
+/* Custom Searchable Select Styles */
+
+.cf7rl-searchable-select {
+	display: inline-block;
+	vertical-align: top;
+	max-width: 450px;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background: #fff;
+	padding: 8px;
+	box-sizing: border-box;
+}
+
+.cf7rl-search-input {
+	width: 100%;
+	padding: 6px 10px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	font-size: 13px;
+	margin-bottom: 6px;
+	box-sizing: border-box;
+	background: #fafafa;
+}
+
+.cf7rl-search-input:focus {
+	border-color: #2271b1;
+	outline: none;
+	box-shadow: 0 0 0 1px #2271b1;
+	background: #fff;
+}
+
+/* Selected items display (for multi-select) */
+.cf7rl-selected-items {
+	min-height: 32px;
+	padding: 4px;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+	background: #f7f7f7;
+	margin-bottom: 6px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	max-height: 120px;
+	overflow-y: auto;
+}
+
+.cf7rl-selected-items:empty {
+	display: none;
+}
+
+/* Selected display for single-select */
+.cf7rl-selected-single {
+	min-height: 28px;
+	padding: 4px;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+	background: #f7f7f7;
+	margin-bottom: 6px;
+}
+
+.cf7rl-selected-single:empty {
+	display: none;
+}
+
+.cf7rl-tag {
+	display: inline-flex;
+	align-items: center;
+	background: #2271b1;
+	color: white;
+	padding: 3px 6px;
+	border-radius: 2px;
+	font-size: 12px;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
+.cf7rl-tag-text {
+	margin-right: 4px;
+}
+
+.cf7rl-tag-remove {
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 1;
+	opacity: 0.7;
+	transition: opacity 0.2s;
+	padding: 0 2px;
+}
+
+.cf7rl-tag-remove:hover {
+	opacity: 1;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 2px;
+}
+
+/* Select box styling */
+.cf7rl-searchable-select select {
+	width: 100%;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 2px;
+	font-size: 13px;
+	box-sizing: border-box;
+	background: #fff;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.cf7rl-searchable-select select:focus {
+	border-color: #2271b1;
+	outline: none;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.cf7rl-searchable-select select option {
+	padding: 5px 8px;
+	cursor: pointer;
+}
+
+.cf7rl-searchable-select select option:hover {
+	background: #f0f0f0;
+}
+
+.cf7rl-searchable-select select option:checked {
+	background: #2271b1;
+	color: white;
+}
+
+/* Single select specific styles */
+.cf7rl-single-select {
+	max-width: 350px;
+}
+
+.cf7rl-single-select select {
+	max-height: 180px;
+}
+
+/* Hide options that don't match search */
+.cf7rl-searchable-select select option[style*="display: none"] {
+	display: none !important;
+}
+
+/* Scrollbar styling for better UX */
+.cf7rl-selected-items::-webkit-scrollbar,
+.cf7rl-searchable-select select::-webkit-scrollbar {
+	width: 8px;
+}
+
+.cf7rl-selected-items::-webkit-scrollbar-track,
+.cf7rl-searchable-select select::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 4px;
+}
+
+.cf7rl-selected-items::-webkit-scrollbar-thumb,
+.cf7rl-searchable-select select::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 4px;
+}
+
+.cf7rl-selected-items::-webkit-scrollbar-thumb:hover,
+.cf7rl-searchable-select select::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

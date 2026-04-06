@@ -6,6 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // returns the form id of the forms that have redirect enabled - used for redirect method 1 and method 2
 function cf7rl_forms_enabled() {
 
+	// Check if redirect module is enabled
+	if ( ! cf7rl_is_module_enabled( 'redirect' ) ) {
+		return json_encode( array() );
+	}
+
 	// array that will contain which forms redirect is enabled on
 	$enabled = array();
 	
@@ -22,8 +27,8 @@ function cf7rl_forms_enabled() {
 		
 		$post_id = $post->ID;
 		
-		// url
-		$enable = get_post_meta( $post_id, "_cf7rl_enable", true);
+		// Check if redirect is enabled (using new meta key)
+		$enable = get_post_meta( $post_id, "_cf7rl_redirect_enable", true);
 		
 		if ($enable == "1") {
 			
@@ -57,20 +62,38 @@ if (isset($options['redirect'])) {
 
 
 
-// return thank payment form
+// return thank you page form
 add_action('wp_ajax_cf7rl_get_form_thank', 'cf7rl_get_form_thank_callback');
 add_action('wp_ajax_nopriv_cf7rl_get_form_thank', 'cf7rl_get_form_thank_callback');
 function cf7rl_get_form_thank_callback() {
 
-	$formid =						sanitize_text_field($_POST['formid']);
-	$cf7rl_thank_you_page = 		get_post_meta($formid, "_cf7rl_thank_you_page", true);	
+	// Check if redirect module is enabled
+	if ( ! cf7rl_is_module_enabled( 'redirect' ) ) {
+		wp_die();
+	}
+
+	// Verify nonce for security
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cf7rl_thank_you_nonce' ) ) {
+		wp_send_json_error( array( 'message' => 'Security check failed' ) );
+		wp_die();
+	}
+
+	$formid = absint($_POST['formid']);
+	
+	// Verify this is a valid CF7 form
+	if ( get_post_type( $formid ) !== 'wpcf7_contact_form' ) {
+		wp_send_json_error( array( 'message' => 'Invalid form ID' ) );
+		wp_die();
+	}
+	
+	$cf7rl_thank_you_page = get_post_meta($formid, "_cf7rl_thank_you_page", true);	
 	
 	$result = '';
 	
-	// thank you page
+	// thank you page - use wp_kses_post to allow safe HTML
 	$result .= "<div class='cf7rl_thank'>";
-	$result .= "$cf7rl_thank_you_page";
-	$result .= "<div>";
+	$result .= wp_kses_post($cf7rl_thank_you_page);
+	$result .= "</div>";
 
 
 	$response = array(

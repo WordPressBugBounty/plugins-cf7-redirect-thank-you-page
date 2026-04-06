@@ -1,0 +1,34 @@
+/**
+ * reCAPTCHA Styles
+ */
+
+.cf7rl-recaptcha-wrapper {
+    margin: 15px 0;
+}
+
+.cf7rl-recaptcha-expired-message {
+    color: #d63638;
+    font-size: 14px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fcf0f1;
+    border-left: 3px solid #d63638;
+    border-radius: 2px;
+    animation: cf7rl-fade-in 0.3s ease-in;
+}
+
+@keyframes cf7rl-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ensure reCAPTCHA is visible and properly spaced */
+.g-recaptcha {
+    margin: 10px 0;
+}

@@ -1,0 +1,150 @@
+/* Country Phone Fields - Frontend Styles */
+
+/* Select Container */
+.cf7rl-select-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	max-width: 350px;
+}
+
+/* Country select - constrained width */
+.wpcf7-countryselect {
+	width: 100%;
+	max-width: 100px;
+}
+
+/* Search Panel (positioned relative to container) */
+.cf7rl-search-panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	margin-top: 2px;
+	background: #fff;
+	border: 1px solid #2271b1;
+	border-radius: 4px;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+	z-index: 10000;
+	display: flex;
+	flex-direction: column;
+	max-height: 350px;
+	min-width: 300px;
+}
+
+/* Search Input */
+.cf7rl-search-input {
+	padding: 10px 12px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	outline: none;
+	font-size: 14px;
+	border-radius: 4px 4px 0 0;
+}
+
+.cf7rl-search-input:focus {
+	background: #f9f9f9;
+}
+
+/* Results List */
+.cf7rl-search-results {
+	overflow-y: auto;
+	max-height: 300px;
+}
+
+/* Individual Result */
+.cf7rl-search-result {
+	padding: 10px 12px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: background 0.15s;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.cf7rl-search-result:last-child {
+	border-bottom: none;
+}
+
+.cf7rl-search-result:hover {
+	background: #f0f0f0;
+}
+
+.cf7rl-search-result.selected {
+	background: #e8f4f8;
+	font-weight: 500;
+}
+
+/* No Results Message */
+.cf7rl-no-results {
+	padding: 20px 12px;
+	text-align: center;
+	color: #666;
+	font-size: 14px;
+}
+
+/* Phone field group - dial code + input */
+.cf7rl-phone-group {
+	display: flex;
+	gap: 8px;
+	align-items: stretch;
+}
+
+.cf7rl-phone-group .cf7rl-select-container {
+	width: 100%;
+	max-width: 100px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: stretch;
+}
+
+.cf7rl-phone-group select.wpcf7-tel-dialcode {
+	width: 100%;
+}
+
+.cf7rl-phone-group input[type="tel"] {
+	flex: 0 1 auto;
+	min-width: 0;
+	width: 100px;
+	max-width: 100px;
+	align-self: stretch;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+	.cf7rl-phone-group {
+		flex-direction: column;
+	}
+	
+	.cf7rl-phone-group .cf7rl-select-container {
+		width: 100%;
+		max-width: 100%;
+	}
+	
+	.cf7rl-phone-group input[type="tel"] {
+		width: 100%;
+	}
+	
+	.cf7rl-search-panel {
+		min-width: 100%;
+	}
+	
+	.cf7rl-select-container {
+		max-width: 100%;
+	}
+	
+	.wpcf7-countryselect {
+		max-width: 100%;
+	}
+}
+
+/* Validation error styling for phone field */
+.cf7rl-phone-wrap .wpcf7-not-valid,
+.cf7rl-phone-wrap input[aria-invalid="true"] {
+	border-color: #dc3232 !important;
+}
+
+/* Style the dial code select when there's an error in the phone wrap */
+.cf7rl-phone-wrap:has(.wpcf7-not-valid) .wpcf7-tel-dialcode,
+.cf7rl-phone-wrap:has([aria-invalid="true"]) .wpcf7-tel-dialcode {
+	border-color: #dc3232 !important;
+}

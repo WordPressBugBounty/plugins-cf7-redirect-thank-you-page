@@ -1,0 +1,68 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+
+function cf7rl_paypal_redirect($post_id, $payment_id) {
+	// get variables
+
+	$name = 	get_post_meta($post_id, "_cf7rl_name", true);
+	$price = 	(float) get_post_meta($post_id, "_cf7rl_price", true);
+	$id = 		get_post_meta($post_id, "_cf7rl_id", true);
+
+	$options = cf7rl_free_options();
+
+	$mode = intval( $options['mode'] );
+
+	$currency = cf7rl_free_currency_code_to_iso( $options['currency'] );
+	$language = cf7rl_free_language_code_to_locale( $options['language'] );
+
+	$ppcp_status = cf7rl_free_ppcp_status();
+	if ( !empty( $ppcp_status['client_id'] ) && empty( $ppcp_status['errors'] ) ) {
+		cf7rl_free_ppcp_order_create( $ppcp_status, $name, $price, $id, $currency, $payment_id, $options['return'], $options['cancel'] );
+	} else {
+		// live or test mode
+		if ($mode === 1) {
+			$account = isset($options['sandboxaccount']) ? $options['sandboxaccount'] : '';
+			$path = "sandbox.paypal";
+		} elseif ($mode === 2)  {
+			$account = isset($options['liveaccount']) ? $options['liveaccount'] : '';
+			$path = "paypal";
+		}
+
+		if (empty($name)) {
+			$name = __("(No item name)", 'contact-form-7-paypal-add-on');
+		}
+
+		$array = array(
+			'business'			=> $account,
+			'currency_code'		=> $currency,
+			'charset'			=> get_bloginfo('charset'),
+			'rm'				=> '1', 				// return method for return url, use 1 for GET
+			'return'			=> $options['return'],
+			'cancel_return'		=> $options['cancel'],
+			'cbt'				=> get_bloginfo('name'),
+			'bn'				=> 'WPPlugin_SP',
+			'lc'				=> $language,
+			'item_number'		=> $id,
+			'item_name'			=> $name,
+			'amount'			=> $price,
+			'cmd'				=> '_xclick',
+			'invoice'			=> $payment_id,
+			'notify_url'		=> cf7rl_get_paypal_notify_url(),
+		);
+
+
+		// generate url with parameters
+		$paypal_url = "https://www.$path.com/cgi-bin/webscr?";
+		$paypal_url .= http_build_query($array);
+		//$paypal_url = htmlentities($paypal_url); // fix for &curren was displayed literally
+		$paypal_url = str_replace('&amp;','&',$paypal_url);
+
+		// redirect to paypal
+		wp_redirect($paypal_url);
+		exit;
+	}
+}
+	
+?>

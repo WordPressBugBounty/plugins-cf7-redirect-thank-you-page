@@ -59,6 +59,7 @@ jQuery(document).ready(function($) {
 					var data = {
 						'action':	'cf7rl_get_form_thank',
 						'formid':	formid,
+						'nonce':	cf7rl_ajax_object.cf7rl_nonce,
 					};
 					
 					jQuery.ajax({
@@ -147,6 +148,7 @@ jQuery(document).ready(function($) {
 						var data = {
 							'action':	'cf7rl_get_form_thank',
 							'formid':	formid,
+							'nonce':	cf7rl_ajax_object.cf7rl_nonce,
 						};
 						
 						jQuery.ajax({

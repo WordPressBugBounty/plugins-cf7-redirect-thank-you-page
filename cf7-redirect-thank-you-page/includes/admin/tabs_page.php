@@ -6,15 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // hook into contact form 7 form
 function cf7rl_editor_panels ( $panels ) {
 
-	$new_page = array(
-		'Redirect' => array(
-			'title' => __( 'Redirect & Thank You Page', 'cf7rl' ),
-			'callback' => 'cf7rl_admin_after_additional_settings'
-		)
-	);
-
-	$panels = array_merge($panels, $new_page);
-
+	// Only add the redirect tab if the redirect module is enabled
+	if ( cf7rl_is_module_enabled( 'redirect' ) ) {
+		$new_page = array(
+			'Redirect' => array(
+				'title' => __( 'Redirect & Thank You Page', 'cf7rl' ),
+				'callback' => 'cf7rl_admin_after_additional_settings'
+			)
+		);
+		$panels = array_merge($panels, $new_page);
+	}
+	
 	return $panels;
 
 }
@@ -25,14 +27,20 @@ function cf7rl_admin_after_additional_settings( $cf7 ) {
 	
 	$post_id = absint($_GET['post']);
 	
-	$enable = 						get_post_meta($post_id, "_cf7rl_enable", true);
+	$enable = 						get_post_meta($post_id, "_cf7rl_redirect_enable", true);
 	$cf7rl_redirect_type = 			get_post_meta($post_id, "_cf7rl_redirect_type", true);
 	$cf7rl_url = 					get_post_meta($post_id, "_cf7rl_url", true);
 	$tab = 							get_post_meta($post_id, "_cf7rl_tab", true);
 	$cf7rl_thank_you_page = 		get_post_meta($post_id, "_cf7rl_thank_you_page", true);
 	
-	if ($enable == "1") { 			$checked = "CHECKED"; } else { 			$checked = ""; }
-	if ($tab == "1") { 				$tab = "CHECKED"; } else { 				$tab = ""; }
+	// Check if payment modules are enabled
+	$payment_enable = 				get_post_meta($post_id, "_cf7rl_enable", true);
+	$stripe_enable = 				get_post_meta($post_id, "_cf7rl_enable_stripe", true);
+	$payment_active = ($payment_enable == "1" || $stripe_enable == "1");
+	
+	if ($enable == "1") { 						$checked = "CHECKED"; } else { 	$checked = ""; }
+	if ($tab == "1") { 							$tab = "CHECKED"; } else { 		$tab = ""; }
+	if ($payment_active) { 						$disabled = "DISABLED"; } else { $disabled = ""; }
 	
 
 	$admin_table_output = "";
@@ -40,12 +48,33 @@ function cf7rl_admin_after_additional_settings( $cf7 ) {
 
 	$admin_table_output .= "<div class='mail-field'></div>";
 	
+	// Container for dynamic notice (will be populated by JavaScript)
+	$admin_table_output .= "<div id='cf7rl-redirect-notice-container'>";
+	
+	// Show server-side notice if payment is active
+	if ($payment_active) {
+		$payment_type = '';
+		if ($payment_enable == "1" && $stripe_enable == "1") {
+			$payment_type = 'PayPal and Stripe are';
+		} elseif ($payment_enable == "1") {
+			$payment_type = 'PayPal is';
+		} else {
+			$payment_type = 'Stripe is';
+		}
+		$admin_table_output .= "<div class='notice notice-warning inline cf7rl-server-notice' style='margin: 10px 0; padding: 10px;'>";
+		$admin_table_output .= "<p><strong>Note:</strong> " . $payment_type . " enabled on this form. ";
+		$admin_table_output .= "The redirect functionality has been disabled because it cannot be used with payment processing.</p>";
+		$admin_table_output .= "</div>";
+	}
+	
+	$admin_table_output .= "</div>";
+	
 	$admin_table_output .= "<table class='cf7rl_tabs_table_main'><tr>";
 	
 	$admin_table_output .= "<td><b>General Settings</b></td></tr>";
 
 	$admin_table_output .= "<td class='cf7rl_tabs_table_title_width'><label>Enable Redirect: </label></td>";
-	$admin_table_output .= "<td class='cf7rl_tabs_table_body_width'><input name='cf7rl_enable' value='1' type='checkbox' $checked></td></tr>";
+	$admin_table_output .= "<td class='cf7rl_tabs_table_body_width'><input id='cf7rl_enable_redirect' name='cf7rl_redirect_enable' value='1' type='checkbox' $checked $disabled></td></tr>";
 	
 	$admin_table_output .= "<td class='cf7rl_tabs_table_title_width'><label>Redirect Type: </label></td>";
 	$admin_table_output .= "<td class='cf7rl_tabs_table_body_width'><select id='cf7rl_redirect_type' name='cf7rl_redirect_type'>
@@ -59,7 +88,7 @@ function cf7rl_admin_after_additional_settings( $cf7 ) {
 	$admin_table_output .= "<tr class='cf7rl_url cf7rl_redirect_option'><td><br /><b>URL Redirect Settings</b></td></tr>";
 	
 	$admin_table_output .= "<tr class='cf7rl_url cf7rl_redirect_option'><td>URL: </td>";
-	$admin_table_output .= "<td><input type='url' name='cf7rl_url' value='$cf7rl_url'> </td><td> Example: http://www.domain.com</td></tr><tr><td colspan='3'></td></tr>";
+	$admin_table_output .= "<td><input type='url' name='cf7rl_url' value='" . esc_attr($cf7rl_url) . "'> </td><td> Example: http://www.domain.com</td></tr><tr><td colspan='3'></td></tr>";
 	
 	$admin_table_output .= "<tr class='cf7rl_url cf7rl_redirect_option'><td class='cf7rl_tabs_table_title_width'><label>Open In New Tab: </label></td>";
 	$admin_table_output .= "<td class='cf7rl_tabs_table_body_width'><input name='cf7rl_tab' value='1' type='checkbox' $tab></td></tr>";
@@ -69,7 +98,7 @@ function cf7rl_admin_after_additional_settings( $cf7 ) {
 	$admin_table_output .= "<tr class='cf7rl_thank cf7rl_redirect_option' style='display:none;'><td><br /><b>Thank You Page Settings</b></td></tr>";
 	
 	$admin_table_output .= "<tr class='cf7rl_thank cf7rl_redirect_option' style='display:none;'><td valign='top'>Thank You Page Body: </td>";
-	$admin_table_output .= "<td> The <a target='_blank' href='https://wpplugin.org/downloads/contact-form-7-redirect-thank-you-page-pro/?utm_source=plugin&utm_medium=cf7rl&utm_campaign=tabs_page'>Pro version</a> allows you to use mail-tags, like [menu-918], in the Thank You Page Body. <br /><textarea name='cf7rl_thank_you_page' cols='100' rows='24'>$cf7rl_thank_you_page</textarea></td></tr>";
+	$admin_table_output .= "<td> The <a target='_blank' href='https://wpplugin.org/downloads/contact-form-7-redirect-thank-you-page-pro/?utm_source=plugin&utm_medium=cf7rl&utm_campaign=tabs_page'>Pro version</a> allows you to use mail-tags, like [menu-918], in the Thank You Page Body. <br /><textarea name='cf7rl_thank_you_page' cols='100' rows='24'>" . esc_textarea($cf7rl_thank_you_page) . "</textarea></td></tr>";
 	
 	
 	
@@ -104,11 +133,12 @@ function cf7rl_save_contact_form( $cf7 ) {
 		
 		$post_id = absint($_POST['cf7rl_post']);
 		
-		if (!empty($_POST['cf7rl_enable'])) {
-			$enable = sanitize_text_field($_POST['cf7rl_enable']);
-			update_post_meta($post_id, "_cf7rl_enable", $enable);
+		// Save redirect enable setting
+		if (!empty($_POST['cf7rl_redirect_enable'])) {
+			$enable = sanitize_text_field($_POST['cf7rl_redirect_enable']);
+			update_post_meta($post_id, "_cf7rl_redirect_enable", $enable);
 		} else {
-			update_post_meta($post_id, "_cf7rl_enable", 0);
+			update_post_meta($post_id, "_cf7rl_redirect_enable", 0);
 		}
 		
 		if (!empty($_POST['cf7rl_tab'])) {

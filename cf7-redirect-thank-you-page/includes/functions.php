@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 // display activation notice
 function cf7rl_my_plugin_admin_notices() {
 	if (!get_option('cf7rl_my_plugin_notice_shown')) {
-		echo "<div class='updated'><p><a href='admin.php?page=cf7rl_admin_table'>Click here to view the plugin settings</a>.</p></div>";
+		echo "<div class='updated'><p><a href='admin.php?page=cf7rl_admin_table'>Click here to view the plugin settings</a> - Contact Form 7 - Business Essentials.</p></div>";
 		update_option("cf7rl_my_plugin_notice_shown", "true");
 	}
 }
@@ -69,6 +69,11 @@ add_action('admin_notices', 'cf7rl_review_admin_notice');
 // handle review notice dismissal
 function cf7rl_handle_review_notice_dismissal() {
 	if (isset($_GET['cf7rl_dismiss_review_notice']) && $_GET['cf7rl_dismiss_review_notice'] == '1') {
+		// Verify user has permission to dismiss notices
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		
 		if (isset($_GET['cf7rl_review_never']) && $_GET['cf7rl_review_never'] == '1') {
 			// Never show again
 			update_option('cf7rl_review_notice_dismissed', 'true');
@@ -87,6 +92,11 @@ add_action('admin_init', 'cf7rl_handle_review_notice_dismissal');
 
 // AJAX handler for dismiss button (X button)
 function cf7rl_ajax_dismiss_review_notice() {
+	// Verify user has permission
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'Unauthorized access' );
+	}
+	
 	if (!wp_verify_nonce($_POST['nonce'], 'cf7rl_dismiss_review_nonce')) {
 		wp_die('Security check failed');
 	}

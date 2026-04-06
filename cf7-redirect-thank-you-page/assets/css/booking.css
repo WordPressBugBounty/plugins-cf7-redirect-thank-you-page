@@ -1,0 +1,37 @@
+/* Booking Module Styles */
+
+/* Booking fields inherit all default CF7 styles - no overrides */
+/* The fields should look exactly like wpcf7-text and wpcf7-select */
+
+/* Only style the Flatpickr calendar overlay */
+.flatpickr-calendar {
+    position: absolute;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 1px solid #2271b1;
+    border-radius: 4px;
+    z-index: 99999;
+    background: #fff;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+    background: #0073aa;
+    border-color: #0073aa;
+}
+
+.flatpickr-day:hover {
+    background: #e8f5fa;
+    border-color: #e8f5fa;
+}
+
+/* Make date field cursor pointer when readonly */
+.wpcf7-bookingdate[readonly] {
+    cursor: pointer;
+    background-color: #fff;
+    /* Remove any browser default styling for readonly fields */
+    border: 1px solid #8c8f94;
+    opacity: 1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}

@@ -1,0 +1,284 @@
+/* Material Theme for Contact Form 7 */
+
+.cf7rl-material-theme {
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	max-width: 600px;
+}
+
+/* Material Input Fields */
+.cf7rl-material-theme .wpcf7-form-control-wrap {
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+/* Reset spacing on common wrapper elements */
+.cf7rl-material-theme p,
+.cf7rl-material-theme label,
+.cf7rl-material-theme br,
+.cf7rl-material-theme div {
+	margin: 0;
+	padding: 0;
+}
+
+.cf7rl-material-theme br {
+	display: none;
+}
+
+/* Country & Phone module specific resets */
+.cf7rl-material-theme .cf7rl-select-container {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Phone group needs padding reset but margin is controlled by form-specific settings */
+.cf7rl-material-theme .cf7rl-phone-group {
+	padding: 0 !important;
+}
+
+/* Phone group is a direct child of form, needs spacing control */
+.cf7rl-material-theme > .cf7rl-phone-group {
+	margin-top: 0 !important;
+}
+
+/* Hide empty wpcf7-form-control-wrap spans (phone field bug workaround) */
+.cf7rl-material-theme .wpcf7-form-control-wrap:empty {
+	display: none;
+}
+
+/* Ensure wpcf7-form-control-wrap inside labels has no extra margin */
+.cf7rl-material-theme label .wpcf7-form-control-wrap {
+	display: block;
+	margin-top: 0 !important;
+}
+
+.cf7rl-material-theme input[type="text"],
+.cf7rl-material-theme input[type="email"],
+.cf7rl-material-theme input[type="url"],
+.cf7rl-material-theme input[type="tel"],
+.cf7rl-material-theme input[type="number"],
+.cf7rl-material-theme input[type="date"],
+.cf7rl-material-theme textarea,
+.cf7rl-material-theme select {
+	width: 100%;
+	padding: 12px 12px 8px 12px;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 4px 4px 0 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: rgba(0, 0, 0, 0.87);
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	box-sizing: border-box;
+	outline: none;
+}
+
+.cf7rl-material-theme input[type="text"]:focus,
+.cf7rl-material-theme input[type="email"]:focus,
+.cf7rl-material-theme input[type="url"]:focus,
+.cf7rl-material-theme input[type="tel"]:focus,
+.cf7rl-material-theme input[type="number"]:focus,
+.cf7rl-material-theme input[type="date"]:focus,
+.cf7rl-material-theme textarea:focus,
+.cf7rl-material-theme select:focus {
+	border-bottom: 1px solid #1976d2;
+}
+
+.cf7rl-material-theme textarea {
+	min-height: 100px;
+	resize: vertical;
+}
+
+/* Floating Labels */
+.cf7rl-material-theme .cf7rl-material-label {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	font-size: 16px;
+	color: rgba(0, 0, 0, 0.54);
+	pointer-events: none;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	transform-origin: left top;
+}
+
+.cf7rl-material-theme .cf7rl-material-label.active {
+	top: -8px;
+	font-size: 12px;
+	color: #1976d2;
+	transform: translateY(0);
+}
+
+/* Material Buttons */
+.cf7rl-material-theme input[type="submit"],
+.cf7rl-material-theme button {
+	position: relative;
+	display: inline-block;
+	padding: 12px 24px;
+	border: none;
+	border-radius: 4px;
+	background-color: #1976d2;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	cursor: pointer;
+	overflow: hidden;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	outline: none;
+}
+
+.cf7rl-material-theme input[type="submit"]:hover,
+.cf7rl-material-theme button:hover {
+	background-color: #1565c0;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	transform: translateY(-1px);
+}
+
+.cf7rl-material-theme input[type="submit"]:active,
+.cf7rl-material-theme button:active {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	transform: translateY(0);
+}
+
+/* Checkboxes and Radio Buttons */
+.cf7rl-material-theme .wpcf7-list-item {
+	margin: 8px 0;
+	display: block;
+}
+
+.cf7rl-material-theme input[type="checkbox"],
+.cf7rl-material-theme input[type="radio"] {
+	position: relative;
+	width: 18px;
+	height: 18px;
+	margin-right: 8px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.cf7rl-material-theme .wpcf7-list-item-label {
+	vertical-align: middle;
+	color: rgba(0, 0, 0, 0.87);
+	cursor: pointer;
+}
+
+/* Select Dropdown */
+.cf7rl-material-theme select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: right 0 center;
+	background-size: 24px;
+	padding-right: 24px;
+}
+
+/* Country/Phone Dropdown Popup */
+.cf7rl-material-theme .cf7rl-search-panel {
+	font-size: 16px;
+}
+
+.cf7rl-material-theme .cf7rl-search-input {
+	font-size: 16px;
+}
+
+.cf7rl-material-theme .cf7rl-search-result {
+	font-size: 16px;
+}
+
+.cf7rl-material-theme .cf7rl-no-results {
+	font-size: 16px;
+}
+
+/* Error Messages */
+.cf7rl-material-theme .wpcf7-not-valid-tip {
+	color: #d32f2f;
+	font-size: 12px;
+	margin-top: 4px;
+	display: block;
+}
+
+.cf7rl-material-theme .wpcf7-response-output {
+	padding: 12px 16px;
+	margin: 16px 0;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.cf7rl-material-theme .wpcf7-validation-errors {
+	background-color: #ffebee;
+	color: #c62828;
+	border: 1px solid #ef5350;
+}
+
+.cf7rl-material-theme .wpcf7-mail-sent-ok {
+	background-color: #e8f5e9;
+	color: #2e7d32;
+	border: 1px solid #66bb6a;
+}
+
+.cf7rl-material-theme .wpcf7-mail-sent-ng {
+	background-color: #ffebee;
+	color: #c62828;
+	border: 1px solid #ef5350;
+}
+
+/* Loading Spinner */
+.cf7rl-material-theme .wpcf7-spinner {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	border: 3px solid rgba(0, 0, 0, 0.1);
+	border-top-color: #1976d2;
+	border-radius: 50%;
+	animation: cf7rl-spin 0.8s linear infinite;
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+@keyframes cf7rl-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* File Upload */
+.cf7rl-material-theme input[type="file"] {
+	padding: 12px 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	width: 100%;
+}
+
+/* Acceptance Checkbox */
+.cf7rl-material-theme .wpcf7-acceptance {
+	margin: 16px 0;
+}
+
+/* Form Validation */
+.cf7rl-material-theme .wpcf7-form-control.wpcf7-not-valid {
+	border-bottom-color: #d32f2f;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+	.cf7rl-material-theme {
+		padding: 0 16px;
+	}
+	
+	.cf7rl-material-theme input[type="submit"],
+	.cf7rl-material-theme button {
+		width: 100%;
+	}
+}
+
+/* Material Elevation */
+.cf7rl-material-theme.cf7rl-elevation {
+	padding: 24px;
+	background: #ffffff;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
