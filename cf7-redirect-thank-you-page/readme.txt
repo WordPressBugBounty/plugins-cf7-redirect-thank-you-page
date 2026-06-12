@@ -4,7 +4,7 @@ Donate link: https://wpplugin.org/donate/
 Tags: contact form 7, payments, database, appointments, reCAPTCHA
 Author URI: https://wpplugin.org
 Requires at least: 3.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6
 Stable tag: 1.2.1
 License: GPLv2 or later
