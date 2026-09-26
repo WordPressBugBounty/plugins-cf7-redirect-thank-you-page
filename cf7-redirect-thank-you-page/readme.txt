@@ -4,9 +4,9 @@ Donate link: https://wpplugin.org/donate/
 Tags: contact form 7, payments, database, appointments, reCAPTCHA
 Author URI: https://wpplugin.org
 Requires at least: 3.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.6
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ No, on_sent_ok is not depreceated by Contact Form 7 and has been replaced by DOM
 
 
 == Changelog ==
+
+= 1.2.2 =
+* 9/25/26
+* Fix - Security issues.
 
 = 1.2.1 =
 * 1/12/26

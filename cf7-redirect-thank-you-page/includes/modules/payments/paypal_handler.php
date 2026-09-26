@@ -75,40 +75,110 @@ function cf7rl_paypal_ipn_handler() {
 	$payload = file_get_contents('php://input');
 	parse_str($payload, $data);
 
-	if (strtolower($data['payment_status']) == 'completed') {
-		$options = cf7rl_free_options();
-		$paypal_post_url = 'https://www.' . ($options['mode'] == '1' ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr';
-
-		$data['cmd'] = '_notify-validate';
-		$args = array(
-			'method'           => 'POST',
-			'timeout'          => 45,
-			'redirection'      => 5,
-			'httpversion'      => '1.1',
-			'blocking'         => true,
-			'headers'          => array(
-				'host'         => 'www.paypal.com',
-				'connection'   => 'close',
-				'content-type' => 'application/x-www-form-urlencoded',
-				'post'         => '/cgi-bin/webscr HTTP/1.1',
-				
-			),
-			'sslverify'        => false,
-			'body'             => $data
-		);
-			
-		// Get response
-		$response = wp_remote_post($paypal_post_url, $args);
-		
-		$status = is_wp_error($response) || strtolower($response['body']) != 'verified' ? 'failed' : 'completed';
-		
-		
-		cf7rl_complete_payment($data['invoice'], $status, $data['txn_id']);
-		
-		http_response_code(200);
-		
-	} else {
-		$status = 'failed';
+	// fields used below - $data itself is posted back to PayPal unchanged
+	$ipn = array();
+	foreach (array('payment_status', 'invoice', 'txn_id', 'receiver_email', 'business', 'receiver_id', 'mc_gross', 'mc_currency') as $key) {
+		$ipn[$key] = isset($data[$key]) && is_string($data[$key]) ? trim($data[$key]) : '';
 	}
-	
+
+	if (strtolower($ipn['payment_status']) != 'completed') {
+		return;
+	}
+
+	// invoice is the payment id this site sent to PayPal
+	$payment_id = (int) $ipn['invoice'];
+
+	if (empty($payment_id) || get_post_type($payment_id) !== 'cf7rl_payments') {
+		cf7rl_paypal_ipn_log('invoice ' . $payment_id . ' is not a payment, ignored');
+		return;
+	}
+
+	$options = cf7rl_free_options();
+	$paypal_post_url = 'https://www.' . ($options['mode'] == '1' ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr';
+
+	$data['cmd'] = '_notify-validate';
+	$args = array(
+		'method'           => 'POST',
+		'timeout'          => 45,
+		'redirection'      => 5,
+		'httpversion'      => '1.1',
+		'blocking'         => true,
+		'headers'          => array(
+			'connection'   => 'close',
+			'content-type' => 'application/x-www-form-urlencoded',
+		),
+		'body'             => $data
+	);
+
+	// Get response
+	$response = wp_remote_post($paypal_post_url, $args);
+
+	// could not ask PayPal - an error response makes PayPal resend the IPN later
+	if (is_wp_error($response) || wp_remote_retrieve_response_code($response) != 200) {
+		cf7rl_paypal_ipn_log('payment #' . $payment_id . ': could not reach PayPal to verify the IPN, PayPal will resend it');
+		return new WP_REST_Response(null, 500);
+	}
+
+	// anyone can post to this url, so only act on messages PayPal confirms it sent
+	if (strtolower(trim(wp_remote_retrieve_body($response))) != 'verified') {
+		cf7rl_paypal_ipn_log('payment #' . $payment_id . ': PayPal did not verify the IPN, ignored');
+		return;
+	}
+
+	$error = cf7rl_paypal_ipn_payment_error($ipn, $payment_id, $options);
+
+	if (!empty($error)) {
+		cf7rl_paypal_ipn_log('payment #' . $payment_id . ': ' . $error . ', not completed');
+		return;
+	}
+
+	cf7rl_complete_payment($payment_id, 'completed', $ipn['txn_id']);
+}
+
+
+/**
+ * Check a verified PayPal IPN paid this site's PayPal account the full payment amount.
+ * Verification only proves PayPal sent the IPN - buyers can edit the PayPal link, or pay their own account.
+ * @since 1.2.2
+ * @return string Why the IPN does not pay for the payment, or an empty string if it does
+ */
+function cf7rl_paypal_ipn_payment_error($ipn, $payment_id, $options) {
+	// the account buyers are sent to pay - a merchant account ID or an email address
+	$account_key = $options['mode'] == '1' ? 'sandboxaccount' : 'liveaccount';
+	$account = isset($options[$account_key]) ? strtolower(trim($options[$account_key])) : '';
+	$receivers = array_map('strtolower', array($ipn['receiver_email'], $ipn['business'], $ipn['receiver_id']));
+
+	if ($account === '') {
+		return 'no ' . $account_key . ' setting is saved to check the payment against';
+	}
+
+	if (!in_array($account, $receivers, true)) {
+		return 'paid to ' . $ipn['receiver_email'] . ', which does not match the ' . $account_key . ' setting';
+	}
+
+	$currency = cf7rl_free_currency_code_to_iso($options['currency']);
+
+	if (strtoupper($ipn['mc_currency']) !== $currency) {
+		return 'paid in ' . $ipn['mc_currency'] . ' instead of ' . $currency;
+	}
+
+	// PayPal can add tax or shipping, so the buyer must pay at least the payment amount
+	$amount = (float) get_post_meta($payment_id, 'amount', true);
+
+	if (round((float) $ipn['mc_gross'], 2) < round($amount, 2)) {
+		return 'paid ' . $ipn['mc_gross'] . ' instead of ' . number_format($amount, 2, '.', '');
+	}
+
+	return '';
+}
+
+
+/**
+ * Log why a PayPal IPN did not complete a payment, when WP_DEBUG is on.
+ * @since 1.2.2
+ */
+function cf7rl_paypal_ipn_log($message) {
+	if (defined('WP_DEBUG') && WP_DEBUG) {
+		error_log('CF7RL PayPal IPN: ' . $message);
+	}
 }

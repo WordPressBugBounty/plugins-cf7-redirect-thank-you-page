@@ -2,6 +2,26 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
+ * Sanitize a payment gateway value
+ * @since 1.2.2
+ * @return string 'paypal', 'stripe' or an empty string if the value is not a supported gateway
+ */
+function cf7rl_sanitize_gateway($gateway) {
+	// select, radio and checkbox fields submit an array of values
+	if (is_array($gateway)) {
+		$gateway = reset($gateway);
+	}
+
+	if (!is_scalar($gateway)) {
+		return '';
+	}
+
+	$gateway = strtolower(trim($gateway));
+
+	return in_array($gateway, array('paypal', 'stripe'), true) ? $gateway : '';
+}
+
+/**
  * Save payment as a custom post type
  * @since 1.8
  * @return payment_id in wp_posts table
@@ -12,7 +32,7 @@ function cf7rl_insert_payment($gateway, $mode, $amount, $form_id, $status='cf7rl
 		'post_status'   => $status,
 		'post_type'     => 'cf7rl_payments',
 		'meta_input'    => array(
-			'gateway'			=> strtolower($gateway),
+			'gateway'			=> cf7rl_sanitize_gateway($gateway),
 			'mode'				=> $mode,
 			'transaction_id'	=> '',
 			'amount'			=> $amount,
@@ -30,7 +50,9 @@ function cf7rl_insert_payment($gateway, $mode, $amount, $form_id, $status='cf7rl
  */
 function cf7rl_complete_payment($payment_id, $status, $transaction_id = '', $payer_email = '') {
 	$payment_id = (int) $payment_id;
-	if ( empty($payment_id) ) return false;
+
+	// the id comes from outside requests (IPN, webhooks), so never update anything but a payment
+	if ( empty($payment_id) || get_post_type($payment_id) !== 'cf7rl_payments' ) return false;
 
 	$transaction_id = sanitize_text_field($transaction_id);
 	if ( !empty( $transaction_id ) ) {

@@ -899,6 +899,34 @@ $settings_table_output .= "</form>";
 		$settings_table_output .= "</div>";
 	$settings_table_output .= "</div>";
 	
+	// Payments Pro Box - styles are printed here rather than in admin.css so browsers can't show it with a stale cached stylesheet
+	$settings_table_output .= "<style>
+		.cf7rl-pro-box { border: 2px solid #1d2327; border-radius: 4px; margin-bottom: 15px; background: #fff; }
+		.cf7rl-pro-box-header { display: flex; align-items: center; gap: 6px; padding: 10px 12px; background: #1d2327; color: #fff; font-size: 15px; font-weight: 700; }
+		.cf7rl-pro-box-header .dashicons { color: #f0c33c; }
+		.cf7rl-pro-box-body { padding: 12px; }
+		.cf7rl-pro-box-body p { margin: 0 0 10px; color: #1d2327; font-size: 14px; font-weight: 600; }
+		.cf7rl-pro-box-body ul { list-style: none; margin: 0 0 14px; padding: 0; }
+		.cf7rl-pro-box-body li { display: flex; align-items: flex-start; gap: 6px; margin: 0 0 8px; }
+		.cf7rl-pro-box-body li .dashicons { flex: none; color: #dba617; }
+		.cf7rl-pro-button { display: block; padding: 8px 12px; border-radius: 3px; background: #f0c33c; color: #1d2327; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; }
+		.cf7rl-pro-button:hover, .cf7rl-pro-button:focus { background: #dba617; color: #1d2327; }
+		.cf7rl-pro-button:focus { outline: 2px solid transparent; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1d2327; }
+	</style>";
+	$settings_table_output .= "<div class='cf7rl-pro-box'>";
+		$settings_table_output .= "<div class='cf7rl-pro-box-header'><span class='dashicons dashicons-awards'></span>Pro Version</div>";
+		$settings_table_output .= "<div class='cf7rl-pro-box-body'>";
+			$settings_table_output .= "<p>Need more advanced payment features?</p>";
+			$settings_table_output .= "<ul>";
+				$settings_table_output .= "<li><span class='dashicons dashicons-yes'></span>No 2% per-transaction fee</li>";
+				$settings_table_output .= "<li><span class='dashicons dashicons-yes'></span>Only send the email if the payment succeeds</li>";
+				$settings_table_output .= "<li><span class='dashicons dashicons-yes'></span>Link form fields to price &amp; quantity</li>";
+				$settings_table_output .= "<li><span class='dashicons dashicons-yes'></span>Charge tax &amp; shipping</li>";
+			$settings_table_output .= "</ul>";
+			$settings_table_output .= "<a class='cf7rl-pro-button' target='_blank' href='https://wpplugin.org/downloads/contact-form-7-paypal-add-on/?utm_source=plugin&utm_medium=cf7rl&utm_campaign=settings_page'>Upgrade to Pro</a>";
+		$settings_table_output .= "</div>";
+	$settings_table_output .= "</div>";
+	
 	// Pro Version Box - COMMENTED OUT
 	/*
 	$settings_table_output .= "<div style='border: 2px solid #1e7e34; border-radius: 4px; background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);'>";

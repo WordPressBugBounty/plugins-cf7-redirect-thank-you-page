@@ -301,20 +301,20 @@ function cf7rl_custom_edit_payments_columns_data( $column, $post_id ) {
 			echo '<a href="' . get_edit_post_link($post_id) . '"><strong>View Order Details</strong></a>';
 
 			echo '<div class="hidden" id="inline_' . $post_id . '">
-					<div class="post_title">' . get_post_meta($post_id, 'transaction_id', true) . '</div>
-					<div class="_status">' . get_post_status($post_id) . '</div>
+					<div class="post_title">' . esc_html(get_post_meta($post_id, 'transaction_id', true)) . '</div>
+					<div class="_status">' . esc_html(get_post_status($post_id)) . '</div>
 				</div>';
 			break;
 		case 'amount':
-			echo get_post_meta($post_id, 'amount', true);
+			echo esc_html(get_post_meta($post_id, 'amount', true));
 			break;
 		case 'transaction_type':
 			$gateway = get_post_meta($post_id, 'gateway', true);
-			echo strtolower($gateway) == 'paypal' ? 'PayPal' : ucfirst($gateway);
+			echo esc_html(strtolower($gateway) == 'paypal' ? 'PayPal' : ucfirst($gateway));
 			break;
 		case 'payment_status':
 			$status = isset($_GET['post_status']) && $_GET['post_status'] == 'trash' ? get_post_meta($post_id, '_wp_trash_meta_status', true) : get_post_status($post_id);
-			echo cf7rl_get_payment_status_label($status);
+			echo esc_html(cf7rl_get_payment_status_label($status));
 			break;
 	}
 }

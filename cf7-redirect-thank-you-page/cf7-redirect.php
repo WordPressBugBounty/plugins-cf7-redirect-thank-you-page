@@ -7,7 +7,7 @@ Description: Adds Business Modules for Contact Form 7 including: Payments with P
 Author: Scott Paterson
 Author URI: https://wpplugin.org
 License: GPL2
-Version: 1.2.1
+Version: 1.2.2
 Requires Plugins: contact-form-7
 Requires PHP: 5.6
 Requires at least: 3.0

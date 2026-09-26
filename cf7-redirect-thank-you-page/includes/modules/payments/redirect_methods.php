@@ -202,8 +202,9 @@ function cf7rl_payment_before_send_mail() {
 		}
 		
 		if ($enable == '1' && $enable_stripe == '1') {
-			$gateway = $posted_data[$gateway_orig][0];
-		}		
+			// the gateway code field is submitted by the visitor, so only accept a supported gateway
+			$gateway = cf7rl_sanitize_gateway(isset($posted_data[$gateway_orig]) ? $posted_data[$gateway_orig] : '');
+		}
 		
 		
 		
